@@ -34,7 +34,7 @@ target 'MobleafExampleReact' do
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
-      :cache_enabled => true
+      # :ccache_enabled => true
     )
   end
 end
