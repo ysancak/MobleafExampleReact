@@ -47,7 +47,7 @@ jobs:
       - name: Cache DerivedData
         uses: actions/cache@v2
         with:
-          path: ios/build
+          path: ios/build/Build/Products/Release-iphonesimulator
           key: ${{ runner.os }}-derivedData-${{ hashFiles('**/*.xcworkspace', '**/*.xcodeproj', '**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-derivedData-
@@ -73,3 +73,8 @@ jobs:
         with:
           name: MobleafExample-app
           path: ios/build/Build/Products/Release-iphonesimulator/MobleafExample.app.zip
+
+      - name: Remove Zip File
+        run: |
+          rm ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
+
