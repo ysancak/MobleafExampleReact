@@ -13,11 +13,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Node.js and Dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
       - run: npm install
+
+      - name: Cache Specific CocoaPods
+        uses: actions/cache@v2
+        id: cocoapods-cache
+        with:
+          path: |
+            ios/Pods/DoubleConversion
+            ios/Pods/Local Podspecs
+          key: ${{ runner.os }}-specific-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-specific-pods-
 
       - name: Install CocoaPods Dependencies
         run: |
@@ -26,7 +46,7 @@ jobs:
 
       - name: Build App
         run: |
-          cd ios/
+          cd ios
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
@@ -48,7 +68,7 @@ jobs:
 
   upload_project:
     name: Zip and Upload Entire Project
-    runs-on: macos-latest-xlarge
+    runs-on: macos-latest
     needs: build_app
 
     steps:
