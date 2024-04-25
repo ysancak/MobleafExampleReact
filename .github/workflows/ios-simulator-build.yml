@@ -1,0 +1,65 @@
+name: Xcode - Build IOS for Simulator
+
+on:
+  repository_dispatch:
+    types: [trigger-action]
+
+jobs:
+  build_app:
+    name: Build and Zip App
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js and Dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          run: npm install
+
+      - name: Install CocoaPods Dependencies
+        run: |
+          cd ios
+          pod install
+
+      - name: Build App
+        run: |
+          cd ios/
+          xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
+                      -scheme 'MobleafExampleReact' \
+                      -sdk iphonesimulator \
+                      -configuration Release \
+                      -derivedDataPath './build' \
+                      -showBuildTimingSummary \
+                      -parallelizeTargets
+
+      - name: Zip .app file
+        run: |
+          cd ./build/Build/Products/
+          zip -r MobleafExampleReact.app.zip Release-iphonesimulator
+          
+      - name: Upload App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MobleafExample-app
+          path: build/Build/Products/MobleafExample.app.zip
+
+  upload_project:
+    name: Zip and Upload Entire Project
+    runs-on: macos-latest-xlarge
+    needs: build_app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Zip entire project
+        run: zip -r MobleafExampleReact-project.zip .
+
+      - name: Upload Project Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MobleafExampleReact-project
+          path: MobleafExampleReact-project.zip
