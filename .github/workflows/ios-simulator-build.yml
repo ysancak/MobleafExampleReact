@@ -16,8 +16,8 @@ jobs:
       - name: Install Node.js and Dependencies
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
-          run: npm install
+          node-version: 18
+      - run: npm install
 
       - name: Install CocoaPods Dependencies
         run: |
