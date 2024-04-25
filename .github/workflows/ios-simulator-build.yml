@@ -7,7 +7,7 @@ on:
 jobs:
   build_app:
     name: Build and Zip App
-    runs-on: macos-13-xlarge
+    runs-on: macos-latest
     
     steps:
       - name: Checkout
@@ -67,12 +67,17 @@ jobs:
         run: |
           cd ios/build/Build/Products/Release-iphonesimulator
           zip -r MobleafExampleReact.app.zip MobleafExampleReact.app
+
+      - name: List directory contents
+        run: |
+          cd ios/build/Build/Products/Release-iphonesimulator
+          ls -la
           
       - name: Upload App Artifact
         uses: actions/upload-artifact@v4
         with:
           name: MobleafExample-app
-          path: ios/build/Build/Products/Release-iphonesimulator/MobleafExample.app.zip
+          path: ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
 
       - name: Remove Zip File
         run: |
