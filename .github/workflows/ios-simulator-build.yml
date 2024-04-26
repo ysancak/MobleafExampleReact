@@ -16,35 +16,6 @@ jobs:
         with:
           clean: false
 
-     #- name: Set up Node.js
-        #uses: actions/setup-node@v3
-        #with:
-          #node-version: 18
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: _node_
-          restore-keys: |
-            _node_
-
-      - name: Cache Specific CocoaPods
-        uses: actions/cache@v2
-        with:
-          path: ios/Pods
-          key: _project_pods_
-          restore-keys: |
-            _project_pods_
-
-      - name: Cache iOS Build Folder
-        uses: actions/cache@v2
-        with:
-          path: ios/build
-          key: _ios_build_
-          restore-keys: |
-            _ios_build_
-
       - name: List files in (project)
         run: |
           echo "Listing files in the project dir:"
@@ -55,21 +26,16 @@ jobs:
           echo "Listing files in the ios dir:"
           ls -la ios
 
-      - name: List files in (ios/build)
+      - name: Install Node.js and Dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+
+      - name: Install CocoaPods Dependencies
         run: |
-          echo "Listing files in the build dir:"
-          ls -la ios/build
-
-      #- name: Install Node.js and Dependencies
-        #uses: actions/setup-node@v3
-        #with:
-          #node-version: 18
-      #- run: npm install
-
-      #- name: Install CocoaPods Dependencies
-        #run: |
-          #cd ios
-          #pod install
+          cd ios
+          pod install
 
       - name: Build App
         run: |
