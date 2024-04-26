@@ -86,6 +86,15 @@ jobs:
                       -sdk iphonesimulator \
                       -configuration Release \
                       -showBuildTimingSummary
+                      
+      - name: Build App 2
+        run: |
+          cd ios
+          xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
+                      -scheme 'MobleafExampleReact' \
+                      -sdk iphonesimulator \
+                      -configuration Release \
+                      -showBuildTimingSummary
 
       #- name: Zip .app file
         #run: |
