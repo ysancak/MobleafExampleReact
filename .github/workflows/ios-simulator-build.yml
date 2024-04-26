@@ -20,7 +20,7 @@ jobs:
           node-version: 18
           
       - name: Start Metro Packager (Background)
-        run: nohup react-native start &
+        run: npx react-native start
 
       - name: Continue with other steps
         run: echo "Other steps can run now while Metro Packager is in background"
