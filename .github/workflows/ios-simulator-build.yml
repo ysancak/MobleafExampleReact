@@ -8,7 +8,7 @@ on:
 jobs:
   build_app:
     name: Build and Zip App
-    runs-on: macos-14
+    runs-on: macos-13
     
     steps:
       - name: Checkout
@@ -84,6 +84,7 @@ jobs:
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
+                      - jobs 4 \
                       -configuration Release \
                       -showBuildTimingSummary
                       
@@ -93,6 +94,7 @@ jobs:
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
+                      - jobs 4 \
                       -configuration Release \
                       -showBuildTimingSummary
 
