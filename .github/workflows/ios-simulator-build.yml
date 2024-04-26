@@ -21,10 +21,7 @@ jobs:
           
       - name: Install React Native CLI
         run: npm install -g react-native-cli
-          
-      - name: Start Metro Packager (Background)
-        run: npx react-native start
-        
+                  
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -54,6 +51,9 @@ jobs:
         with:
           node-version: 18
       - run: npm install
+
+      - name: Start Metro Packager (Background)
+        run: npx react-native start
 
       - name: Install CocoaPods Dependencies
         run: |
