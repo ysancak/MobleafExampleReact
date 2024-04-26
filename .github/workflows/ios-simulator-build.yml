@@ -18,25 +18,25 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: _node_
           restore-keys: |
-            ${{ runner.os }}-node-
+            _node_
 
       - name: Cache CocoaPods Pods
         uses: actions/cache@v2
         with:
           path: ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: _pods_
           restore-keys: |
-            ${{ runner.os }}-pods-
+           _pods_
 
       - name: Cache Specific CocoaPods
         uses: actions/cache@v2
         with:
           path: ios/Pods
-          key: ${{ runner.os }}-project-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: _project_pods_
           restore-keys: |
-            ${{ runner.os }}-project-pods-
+            _project_pods_
 
       - name: Install Node.js and Dependencies
         uses: actions/setup-node@v3
@@ -55,17 +55,17 @@ jobs:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/Build
             ~/Library/Developer/Xcode/DerivedData/**/Index
-          key: ${{ runner.os }}-derived-data-important-${{ github.sha }}
+          key: _derived_data_
           restore-keys: |
-            ${{ runner.os }}-derived-data-important-
+            _derived_data_
 
       - name: Cache iOS Build Folder
         uses: actions/cache@v2
         with:
           path: ios/build
-          key: ${{ runner.os }}-ios-build-${{ hashFiles('**/*.xcodeproj', '**/*.xcworkspace') }}
+          key: _ios_build_
           restore-keys: |
-            ${{ runner.os }}-ios-build-
+            _ios_build_
 
       - name: Build App
         run: |
