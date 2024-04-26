@@ -9,7 +9,7 @@ jobs:
   build_app:
     name: Build and Zip App
     runs-on: macos-13
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-                  
+
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -26,14 +26,6 @@ jobs:
           key: _node_
           restore-keys: |
             _node_
-
-      - name: Cache CocoaPods Pods
-        uses: actions/cache@v2
-        with:
-          path: ~/Library/Caches/CocoaPods
-          key: _pods_
-          restore-keys: |
-           _pods_
 
       - name: Cache Specific CocoaPods
         uses: actions/cache@v2
@@ -48,20 +40,11 @@ jobs:
         with:
           node-version: 18
       - run: npm install
-      
+
       - name: Install CocoaPods Dependencies
         run: |
           cd ios
           pod install
-
-      - name: Cache Derived Data Important Files
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/Library/Developer/Xcode/DerivedData
-          key: _derived_data_
-          restore-keys: |
-            _derived_data_
 
       - name: Cache iOS Build Folder
         uses: actions/cache@v2
@@ -71,28 +54,42 @@ jobs:
           restore-keys: |
             _ios_build_
 
+      - name: List files in (project)
+        run: |
+          echo "Listing files in the project dir:"
+          ls -la
+
+      - name: List files in (ios)
+        run: |
+          echo "Listing files in the ios dir:"
+          ls -la ios
+
+      - name: List files in (ios/build)
+        run: |
+          echo "Listing files in the build dir:"
+          ls -la ios/build
+
       - name: Build App
         run: |
           cd ios
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
-                      -jobs 4 \
+                      -derivedDataPath 'build' \
                       -configuration Release \
                       -showBuildTimingSummary
 
       #- name: Zip .app file
-        #run: |
-          #cd ios/build/Build/Products/Release-iphonesimulator
-          #zip -r MobleafExampleReact.app.zip .
+      #run: |
+      #cd ios/build/Build/Products/Release-iphonesimulator
+      #zip -r MobleafExampleReact.app.zip .
 
       #- name: Upload App Artifact
-        #uses: actions/upload-artifact@v4
-        #with:
-          #name: MobleafExample-app
-          #path: ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
+      #uses: actions/upload-artifact@v4
+      #with:
+      #name: MobleafExample-app
+      #path: ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
 
       #- name: Remove Zip File
-        #run: |
-          #rm ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
-
+      #run: |
+      #rm ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
