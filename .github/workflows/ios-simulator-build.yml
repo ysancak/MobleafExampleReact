@@ -84,7 +84,7 @@ jobs:
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
-                      - jobs 4 \
+                      -jobs 4 \
                       -configuration Release \
                       -showBuildTimingSummary
                       
@@ -94,7 +94,7 @@ jobs:
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
                       -scheme 'MobleafExampleReact' \
                       -sdk iphonesimulator \
-                      - jobs 4 \
+                      -jobs 4 \
                       -configuration Release \
                       -showBuildTimingSummary
 
