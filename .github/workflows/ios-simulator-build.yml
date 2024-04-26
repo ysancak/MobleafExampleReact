@@ -53,7 +53,7 @@ jobs:
       - run: npm install
 
       - name: Start Metro Packager (Background)
-        run: npx react-native start
+        run: nohup npx react-native start > /dev/null 2>&1 &
 
       - name: Install CocoaPods Dependencies
         run: |
