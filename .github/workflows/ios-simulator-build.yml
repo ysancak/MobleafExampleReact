@@ -19,12 +19,12 @@ jobs:
         with:
           node-version: 18
           
+      - name: Install React Native CLI
+        run: npm install -g react-native-cli
+          
       - name: Start Metro Packager (Background)
         run: npx react-native start
-
-      - name: Continue with other steps
-        run: echo "Other steps can run now while Metro Packager is in background"
-          
+        
       - name: Cache node modules
         uses: actions/cache@v2
         with:
