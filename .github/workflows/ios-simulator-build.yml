@@ -21,21 +21,6 @@ jobs:
         #with:
           #node-version: 18
 
-      - name: List files in (project)
-        run: |
-          echo "Listing files in the project dir:"
-          ls -la
-
-      - name: List files in (ios)
-        run: |
-          echo "Listing files in the ios dir:"
-          ls -la ios
-
-      - name: List files in (ios/build)
-        run: |
-          echo "Listing files in the build dir:"
-          ls -la ios/build
-
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -60,17 +45,17 @@ jobs:
           restore-keys: |
             _ios_build_
 
-      - name: List files in (project) 2
+      - name: List files in (project)
         run: |
           echo "Listing files in the project dir:"
           ls -la
 
-      - name: List files in (ios) 2
+      - name: List files in (ios)
         run: |
           echo "Listing files in the ios dir:"
           ls -la ios
 
-      - name: List files in (ios/build) 2
+      - name: List files in (ios/build)
         run: |
           echo "Listing files in the build dir:"
           ls -la ios/build
