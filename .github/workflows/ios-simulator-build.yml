@@ -22,8 +22,13 @@ jobs:
           restore-keys: _derived_data_
 
       - name: List files in (Derived Data)
-        run: ls -la ~/Library/Developer/Xcode/DerivedData
-
+        run: |
+          if [ -d "node_modules" ]; then
+            echo "Derived data not found"
+          else
+            ls -la ~/Library/Developer/Xcode/DerivedData
+          fi
+          
       - name: Cache node modules
         uses: actions/cache@v2
         with:
