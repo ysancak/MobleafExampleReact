@@ -34,15 +34,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install Node.js and Dependencies
-        with:
-          node-version: 18
-          run: |
-            if [ -d "node_modules" ]; then
-              echo "Node modules cache hit"
-            else
-              npm install
-            fi
+      - name: Install Node.js dependencies
+        run: |
+          if [ -d "node_modules" ]; then
+            echo "Node modules cache hit"
+          else
+            npm install
+          fi
 
       - name: Cache CocoaPods pods
         uses: actions/cache@v2
