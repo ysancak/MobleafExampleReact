@@ -61,6 +61,9 @@ jobs:
       - name: List files in (ios)
         run: ls -la ios
 
+      - name: List files in (Derived)
+        run: ls -la ~/Library/Developer/Xcode/DerivedData
+
       - name: Build App
         run: |
           cd ios
