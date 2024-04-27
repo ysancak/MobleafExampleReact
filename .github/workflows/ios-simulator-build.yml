@@ -37,7 +37,7 @@ jobs:
       - name: Install Node.js and Dependencies
         with:
           node-version: 18
-          -run: |
+          run: |
             if [ -d "node_modules" ]; then
               echo "Node modules cache hit"
             else
