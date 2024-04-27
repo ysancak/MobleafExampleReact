@@ -13,39 +13,65 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Cache (Derived Data)
+        uses: actions/cache@v2
         with:
-          clean: false
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: _derived_data_
+          restore-keys: _derived_data_
 
-      - name: List files in (project)
-        run: |
-          echo "Listing files in the project dir:"
-          ls -la
+      - name: List files in (Derived Data)
+        run: ls -la ~/Library/Developer/Xcode/DerivedData
 
-      - name: List files in (ios)
-        run: |
-          echo "Listing files in the ios dir:"
-          ls -la ios
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install Node.js and Dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm install
+          -run: |
+            if [ -d "node_modules" ]; then
+              echo "Node modules cache hit"
+            else
+              yarn install
+            fi
 
-      - name: Install CocoaPods Dependencies
+      - name: List files in (ios)
+        run: ls -la ios
+
+      - name: Cache CocoaPods pods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
         run: |
-          cd ios
-          pod install
+          if [ -d "ios/Pods" ]; then
+            echo "CocoaPods cache hit"
+          else
+            cd ios && pod install
+          fi
 
       - name: Build App
         run: |
           cd ios
           xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
-                      -scheme 'MobleafExampleReact' \
-                      -sdk iphonesimulator \
-                      -derivedDataPath 'build' \
-                      -configuration Release \
-                      -showBuildTimingSummary
+              -scheme 'MobleafExampleReact' \
+              -sdk iphonesimulator \
+              -configuration Release \
+              -showBuildTimingSummary
 
       #- name: Zip .app file
       #run: |
