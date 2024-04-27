@@ -42,9 +42,6 @@ jobs:
               yarn install
             fi
 
-      - name: List files in (ios)
-        run: ls -la ios
-
       - name: Cache CocoaPods pods
         uses: actions/cache@v2
         with:
@@ -60,6 +57,12 @@ jobs:
           else
             cd ios && pod install
           fi
+
+      - name: List files in (project)
+        run: ls -la
+
+      - name: List files in (ios)
+        run: ls -la ios
 
       - name: Build App
         run: |
