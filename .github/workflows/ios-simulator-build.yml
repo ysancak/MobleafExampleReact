@@ -35,14 +35,13 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install Node.js and Dependencies
-        uses: actions/setup-node@v3
         with:
           node-version: 18
           -run: |
             if [ -d "node_modules" ]; then
               echo "Node modules cache hit"
             else
-              yarn install
+              npm install
             fi
 
       - name: Cache CocoaPods pods
