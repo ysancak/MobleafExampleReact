@@ -23,7 +23,7 @@ jobs:
 
       - name: List files in (Derived Data)
         run: |
-          if [ -d "node_modules" ]; then
+          if [ -d "~/Library/Developer/Xcode/DerivedData" ]; then
             echo "Derived data not found"
           else
             ls -la ~/Library/Developer/Xcode/DerivedData
