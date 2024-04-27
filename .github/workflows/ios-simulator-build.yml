@@ -13,14 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set IgnoreFileSystemDeviceInodeChanges flag
-        run: defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
-
-      - name: List files in (project)
-        run: ls -la
 
       - name: Cache (Derived Data)
         uses: actions/cache@v2
@@ -36,8 +28,7 @@ jobs:
             ~/.npm
             node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: _node_
 
       - name: Install Node.js dependencies
         run: |
@@ -52,8 +43,7 @@ jobs:
         with:
           path: ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+          restore-keys: _pods_
 
       - name: Install CocoaPods
         run: |
@@ -63,12 +53,9 @@ jobs:
             cd ios && pod install
           fi
 
-      - name: List files in (ios)
-        run: ls -la ios
-
-      - name: List files in (Derived)
-        run: ls -la ~/Library/Developer/Xcode/DerivedData
-
+      - name: Set IgnoreFileSystemDeviceInodeChanges flag
+        run: defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+        
       - name: Build App
         run: |
           cd ios
@@ -77,6 +64,15 @@ jobs:
               -sdk iphonesimulator \
               -configuration Release \
               -showBuildTimingSummary
+              
+      - name: Build App 2
+        run: |
+          cd ios
+          xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
+              -scheme 'MobleafExampleReact' \
+              -sdk iphonesimulator \
+              -configuration Release \
+              -showBuildTimingSummary              
 
       #- name: Zip .app file
       #run: |
