@@ -40,4 +40,4 @@ jobs:
       - name: Zip .app file
         run: |
           cd ios/build/Build/Products/Release-iphonesimulator
-          zip -r MobleafExampleReact.app.zip .
+          zip -r MobleafExampleReact.app.zip MobleafExampleReact.app
