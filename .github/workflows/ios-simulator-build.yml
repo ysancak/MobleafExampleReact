@@ -11,9 +11,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Install Node.js dependencies
         run: |
           if [ -d "node_modules" ]; then
@@ -37,16 +34,7 @@ jobs:
               -scheme 'MobleafExampleReact' \
               -sdk iphonesimulator \
               -configuration Release \
-              -showBuildTimingSummary
-              
-      - name: Build App 2
-        run: |
-          cd ios
-          xcodebuild -workspace 'MobleafExampleReact.xcworkspace' \
-              -scheme 'MobleafExampleReact' \
-              -sdk iphonesimulator \
-              -configuration Release \
-              -showBuildTimingSummary              
+              -showBuildTimingSummary          
 
       #- name: Zip .app file
       #run: |
