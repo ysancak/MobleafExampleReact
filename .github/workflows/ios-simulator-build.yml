@@ -8,7 +8,7 @@ on:
 jobs:
   build_app:
     name: Build and Zip App
-    runs-on: macos-13
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
