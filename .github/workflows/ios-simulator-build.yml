@@ -34,6 +34,7 @@ jobs:
               -scheme 'MobleafExampleReact' \
               -sdk iphonesimulator \
               -configuration Release \
+              -derivedDataPath 'build' \
               -showBuildTimingSummary          
 
       #- name: Zip .app file
