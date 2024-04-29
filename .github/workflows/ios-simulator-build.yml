@@ -37,17 +37,7 @@ jobs:
               -derivedDataPath 'build' \
               -showBuildTimingSummary          
 
-      #- name: Zip .app file
-      #run: |
-      #cd ios/build/Build/Products/Release-iphonesimulator
-      #zip -r MobleafExampleReact.app.zip .
-
-      #- name: Upload App Artifact
-      #uses: actions/upload-artifact@v4
-      #with:
-      #name: MobleafExample-app
-      #path: ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
-
-      #- name: Remove Zip File
-      #run: |
-      #rm ios/build/Build/Products/Release-iphonesimulator/MobleafExampleReact.app.zip
+      - name: Zip .app file
+        run: |
+          cd ios/build/Build/Products/Release-iphonesimulator
+          zip -r MobleafExampleReact.app.zip .
