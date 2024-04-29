@@ -14,22 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache (Derived Data)
-        uses: actions/cache@v2
-        with:
-          path: ~/Library/Developer/Xcode/DerivedData
-          key: derived-data-${{ hashFiles('**/*.swift', '**/*.xib') }}          
-          restore-keys: _derived_data_
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: _node_
-
       - name: Install Node.js dependencies
         run: |
           if [ -d "node_modules" ]; then
@@ -38,13 +22,6 @@ jobs:
             npm install
           fi
 
-      - name: Cache CocoaPods pods
-        uses: actions/cache@v2
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: _pods_
-
       - name: Install CocoaPods
         run: |
           if [ -d "ios/Pods" ]; then
@@ -52,9 +29,6 @@ jobs:
           else
             cd ios && pod install
           fi
-
-      - name: Set IgnoreFileSystemDeviceInodeChanges flag
-        run: defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
         
       - name: Build App
         run: |
